@@ -47,6 +47,7 @@ typedef struct _RrImage            RrImage;
 typedef struct _RrImageSet         RrImageSet;
 typedef struct _RrImagePic         RrImagePic;
 typedef struct _RrImageCache       RrImageCache;
+typedef struct _RrButton           RrButton;
 
 typedef guint32 RrPixel32;  /* RGBA format */
 typedef guint16 RrPixel16;
@@ -221,6 +222,8 @@ struct _RrTexture {
 
 struct _RrAppearance {
     const RrInstance *inst;
+    
+    gint ref;
 
     RrSurface surface;
     gint textures;
@@ -329,12 +332,16 @@ gulong   RrColorPixel (const RrColor *c);
 GC       RrColorGC    (RrColor *c);
 
 RrAppearance *RrAppearanceNew  (const RrInstance *inst, gint numtex);
+RrAppearance *RrAppearanceCopyShallow (RrAppearance *a);
 RrAppearance *RrAppearanceCopy (RrAppearance *a);
 void          RrAppearanceFree (RrAppearance *a);
 void          RrAppearanceRemoveTextures(RrAppearance *a);
 void          RrAppearanceAddTextures(RrAppearance *a, gint numtex);
 /*! Always call this when changing the type of a texture in an appearance */
 void          RrAppearanceClearTextures(RrAppearance *a);
+
+RrButton *RrButtonNew (const RrInstance *inst);
+void      RrButtonFree(RrButton *b);
 
 RrFont *RrFontOpen          (const RrInstance *inst, const gchar *name,
                              gint size, RrFontWeight weight, RrFontSlant slant);
