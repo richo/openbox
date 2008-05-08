@@ -233,6 +233,7 @@ openbox_openbox_SOURCES = \
 	openbox/grab.h \
 	openbox/group.c \
 	openbox/group.h \
+	openbox/imageload.c \
 	openbox/imageload.h \
 	openbox/keyboard.c \
 	openbox/keyboard.h \
@@ -280,10 +281,6 @@ openbox_openbox_SOURCES = \
 	openbox/window.h \
 	openbox/xerror.c \
 	openbox/xerror.h
-
-if USE_IMLIB2
-    openbox_openbox_SOURCES += openbox/imageload.c
-endif
 
 
 ## gnome-panel-control ##

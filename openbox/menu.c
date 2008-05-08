@@ -268,19 +268,17 @@ static void parse_menu_item(ObParseInst *i, xmlDocPtr doc, xmlNodePtr node,
 {
     ObMenuParseState *state = data;
     gchar *label;
-    #ifdef USE_IMLIB2
     gchar *icon;
-    #endif
     ObMenuEntry *e;
 
     if (state->parent) {
-        #ifdef USE_IMLIB2
         /* Don't try to extract "icon" attribute if icons in user-defined
 	   menus are not enabled. */
         if (!(config_menu_user_show_icons &&
             parse_attr_string("icon", node, &icon)))
-               icon = NULL;
-        #endif
+        {
+            icon = NULL;
+        }
 
         if (parse_attr_string("label", node, &label)) {
             GSList *acts = NULL;
@@ -293,15 +291,12 @@ static void parse_menu_item(ObParseInst *i, xmlDocPtr doc, xmlNodePtr node,
                 }
             e = menu_add_normal(state->parent, -1, label, acts, TRUE);
             
-            #ifdef USE_IMLIB2
             if (icon) { /* Icon will be used. */
                 e->data.normal.icon = RrImageFetchFromFile(ob_rr_icons, icon);
-                if (e->data.normal.icon) {
+                if (e->data.normal.icon)
                     e->data.normal.icon_alpha = 0xff;
-                }
                 g_free(icon);
             }
-            #endif
             g_free(label);
         }
     }
