@@ -87,9 +87,10 @@ AC_PROG_INSTALL
 AM_GNU_GETTEXT_VERSION(0.15)
 AM_GNU_GETTEXT([external])
 
-AC_CHECK_HEADERS(ctype.h fcntl.h grp.h locale.h pwd.h signal.h string.h)
-AC_CHECK_HEADERS(stdio.h stdlib.h unistd.h sys/stat.h sys/select.h)
-AC_CHECK_HEADERS(sys/socket.h sys/time.h sys/wait.h sys/inotify.h)
+AC_CHECK_HEADERS(ctype.h dirent.h errno.h fcntl.h grp.h locale.h pwd.h)
+AC_CHECK_HEADERS(signal.h string.h stdio.h stdlib.h unistd.h sys/stat.h)
+AC_CHECK_HEADERS(sys/select.h sys/socket.h sys/time.h sys/types.h sys/wait.h)
+AC_CHECK_HEADERS(sys/inotify.h)
 # AC_HEADER_TIME
 # AC_TYPE_SIGNAL
 
