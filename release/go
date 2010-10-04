@@ -1,0 +1,75 @@
+#!/bin/sh
+
+NOW=$(date +%s)
+SRCDIR="$PWD"
+WORKDIR="/tmp/openbox.$NOW"
+TESTDIR="$WORKDIR/.test"
+
+help() {
+  echo "Usage: $0 <revision> <version>"
+  echo
+  echo "  <revision>   The revision which should be used for release."
+  echo "  <version>    The version of the release."
+  exit 1
+}
+
+clean() {
+  cd $SRCDIR
+  if test -d "$WORKDIR"; then
+    chmod -R +w "$WORKDIR"
+    rm -r -f "$WORKDIR"
+  fi
+}
+
+error() {
+  echo "error: $1"
+  clean
+  exit 1
+}
+
+test -e "./openbox/openbox.c" || \
+  error "must be run from the project's top level directory"
+
+REV="$1"
+test -z "$REV" && help
+VERSION="$2"
+test -z "$VERSION" && help
+
+RELEASE_SHA=$(git rev-parse "$REV")
+test $? = 0 || error "revision $REV not found"
+
+NON_MASTER=$(git rev-list $RELEASE_SHA ^master)
+test $? = 0 || error "git rev-list failed"
+test -z $NON_MASTER || error "REVISION contains commits not on master"
+
+git new-workdir "$SRCDIR" "$WORKDIR"
+test $? = 0 || error "git-new-workdir failed"
+
+echo "working in $WORKDIR"
+
+cd "$WORKDIR"
+test $? = 0 || error "cd to $WORKDIR failed"
+
+git checkout -q $RELEASE_SHA
+test $? = 0 || error "git-checkout failed"
+
+# check that it builds
+./bootstrap > /dev/null || "bootstrap failed"
+./configure -C --prefix="$TESTDIR" --enable-debug > /dev/null || \
+  error "configure (with debug) failed"
+make || error "make (with debug) failed"
+git clean -f -x -d -q
+
+# check that it installs sanely
+./bootstrap > /dev/null || "bootstrap failed"
+./configure -C --prefix="$TESTDIR" > /dev/null || error "configure failed"
+make distcheck > /dev/null || error "make distcheck failed"
+
+echo Found Openbox version:
+ls -d openbox-*
+test -d "openbox-$VERSION" || \
+  error "version does not match configure.am"
+
+clean
+
+exit 0
