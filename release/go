@@ -38,9 +38,9 @@ test -z "$VERSION" && help
 RELEASE_SHA=$(git rev-parse "$REV")
 test $? = 0 || error "revision $REV not found"
 
-NON_MASTER=$(git rev-list $RELEASE_SHA ^master)
-test $? = 0 || error "git rev-list failed"
-test -z $NON_MASTER || error "REVISION contains commits not on master"
+#NON_MASTER=$(git rev-list $RELEASE_SHA ^master)
+#test $? = 0 || error "git rev-list failed"
+#test -z $NON_MASTER || error "REVISION contains commits not on master"
 
 git new-workdir "$SRCDIR" "$WORKDIR"
 test $? = 0 || error "git-new-workdir failed"
@@ -54,21 +54,86 @@ git checkout -q $RELEASE_SHA
 test $? = 0 || error "git-checkout failed"
 
 # check that it builds
-./bootstrap > /dev/null || "bootstrap failed"
-./configure -C --prefix="$TESTDIR" --enable-debug > /dev/null || \
+./bootstrap >/dev/null || "bootstrap failed"
+#CFLAGS="-Werror -isystem /usr/lib/glib-2.0" \
+./configure -C --enable-debug >/dev/null || \
   error "configure (with debug) failed"
-make || error "make (with debug) failed"
+make || error "make (with debug and Werror) failed"
 git clean -f -x -d -q
 
-# check that it installs sanely
-./bootstrap > /dev/null || "bootstrap failed"
-./configure -C --prefix="$TESTDIR" > /dev/null || error "configure failed"
-make distcheck > /dev/null || error "make distcheck failed"
+# check that it builds with each optional featureset
+./bootstrap >/dev/null || "bootstrap failed"
 
-echo Found Openbox version:
+./configure -C >/dev/null || \
+  error "configure failed"
+make >/dev/null 2>/dev/null || \
+  error "make failed"
+grep \\-DHAVE_SYS_INOTIFY_H=1 config.log>/dev/null || error "missing inotify.h"
+grep \\-DXKB=1 config.log >/dev/null || error "missing xkb extension"
+grep \\-DXRANDR=1 config.log >/dev/null || error "missing xrandr extension"
+grep \\-DXINERAMA=1 config.log >/dev/null || error "missing xinerama extension"
+grep \\-DSYNC=1 config.log >/dev/null || error "missing sync extension"
+make clean >/dev/null || error "make clean failed"
+
+./configure -C --disable-inotify >/dev/null || \
+  error "configure failed"
+make >/dev/null 2>/dev/null || \
+  error "make (with --disable-inotify) failed"
+make clean >/dev/null || error "make clean failed"
+
+./configure -C --disable-startup-notification >/dev/null || \
+  error "configure failed"
+make >/dev/null 2>/dev/null || \
+  error "make (with --disable-startup-notification) failed"
+make clean >/dev/null || error "make clean failed"
+
+./configure -C --disable-xcursor >/dev/null || \
+  error "configure failed"
+make >/dev/null 2>/dev/null || \
+  error "make (with --disable-xcursor) failed"
+make clean >/dev/null || error "make clean failed"
+
+./configure -C --disable-imlib2 >/dev/null || \
+  error "configure failed"
+make >/dev/null 2>/dev/null || \
+  error "make (with --disable-imlib2) failed"
+make clean >/dev/null || error "make clean failed"
+
+./configure -C --disable-session-management >/dev/null || \
+  error "configure failed"
+make >/dev/null 2>/dev/null || \
+  error "make (with --disable-session-management) failed"
+make clean >/dev/null || error "make clean failed"
+
+./configure -C --disable-xkb >/dev/null || error "configure failed"
+make >/dev/null 2>/dev/null || error "make (with --disable-xkb) failed"
+make clean >/dev/null || error "make clean failed"
+
+./configure -C --disable-xrandr >/dev/null || error "configure failed"
+make >/dev/null 2>/dev/null || error "make (with --disable-xrandr) failed"
+make clean >/dev/null || error "make clean failed"
+
+./configure -C --disable-xinerama >/dev/null || error "configure failed"
+make >/dev/null 2>/dev/null || error "make (with --disable-xinerama) failed"
+make clean >/dev/null || error "make clean failed"
+
+./configure -C --disable-xsync >/dev/null || error "configure failed"
+make >/dev/null 2>/dev/null || error "make (with --disable-xsync) failed"
+make clean >/dev/null || error "make clean failed"
+
+# check that it installs sanely
+./configure -C >/dev/null || \
+  error "configure failed"
+make distcheck >/dev/null || \
+  error "make distcheck failed"
+
+echo Found Openbox release tarball:
 ls -d openbox-*
-test -d "openbox-$VERSION" || \
+test -e "openbox-$VERSION.tar.gz" || \
   error "version does not match configure.am"
+
+# do some more stuff...
+
 
 clean
 
