@@ -2876,9 +2876,9 @@ void client_try_configure(ObClient *self, gint *x, gint *y, gint *w, gint *h,
 
     /* cap any X windows at the size of an unsigned short */
     *w = MIN(*w,
-             G_MAXUSHORT - self->frame->size.left - self->frame->size->right);
+             G_MAXUSHORT - self->frame->size.left - self->frame->size.right);
     *h = MIN(*h,
-             G_MAXUSHORT - self->frame->size.top - self->frame->size->bottom);
+             G_MAXUSHORT - self->frame->size.top - self->frame->size.bottom);
 
 
     /* gets the frame's position */
