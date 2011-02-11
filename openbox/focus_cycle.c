@@ -44,6 +44,9 @@ static gboolean focus_cycle_nonhilite_windows;
 static gboolean focus_cycle_dock_windows;
 static gboolean focus_cycle_desktop_windows;
 
+Window current_window, root;
+XWindowAttributes winatts;
+
 static ObClient *focus_find_directional(ObClient *c,
                                         ObDirection dir,
                                         gboolean dock_windows,
@@ -171,12 +174,24 @@ ObClient* focus_cycle(gboolean forward, gboolean all_desktops,
     } while (it != start);
 
 done_cycle:
+
     if (done && !cancel) ret = focus_cycle_target;
 
     focus_cycle_target = NULL;
     focus_cycle_type = OB_CYCLE_NONE;
     g_list_free(order);
     order = NULL;
+
+// XXX Move cursor here
+    current_window = RootWindow(obt_display, 0);
+/*  XGetGeometry(obt_display, current_window, &root, &win_x, &win_y, &width, &height,
+            &border_width, &depth);*/
+    // Noob.
+    XGetWindowAttributes(obt_display, current_window, &winatts);
+    XWarpPointer(obt_display, None, current_window, 0, 0, 0, 0, winatts.width/2, winatts.height/2);
+
+    printf ("%d %d", winatts.height, winatts.width);
+    fflush(stdout);
 
     if (interactive) {
         focus_cycle_draw_indicator(NULL);
