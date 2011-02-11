@@ -81,7 +81,6 @@ extern gboolean config_unfocus_leave;
  */
 extern gboolean config_mouse_to_focus;
 
-
 /*! The algorithm to use for placing new windows */
 extern ObPlacePolicy config_place_policy;
 /*! Place windows in the center of the free area */

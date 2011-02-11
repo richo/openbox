@@ -172,7 +172,6 @@ ObClient* focus_cycle(gboolean forward, gboolean all_desktops,
     } while (it != start);
 
 done_cycle:
-
     if (done && !cancel) ret = focus_cycle_target;
 
     focus_cycle_target = NULL;
