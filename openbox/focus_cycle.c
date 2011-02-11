@@ -44,13 +44,6 @@ static gboolean focus_cycle_nonhilite_windows;
 static gboolean focus_cycle_dock_windows;
 static gboolean focus_cycle_desktop_windows;
 
-Window current_window, root;
-XWindowAttributes winatts;
-Window activeWin;
-int xCoordinate,yCoordinate;
-unsigned int width,height,border_width,depth;
-int reverToReturn;
-
 static ObClient *focus_find_directional(ObClient *c,
                                         ObDirection dir,
                                         gboolean dock_windows,
@@ -115,6 +108,10 @@ ObClient* focus_cycle(gboolean forward, gboolean all_desktops,
     GList *it, *start, *list;
     ObClient *ft = NULL;
     ObClient *ret = NULL;
+
+    int xCoordinate,yCoordinate;
+    unsigned int width,height,border_width,depth;
+    Window root;
 
     if (interactive) {
         if (cancel) {
@@ -186,36 +183,8 @@ done_cycle:
     g_list_free(order);
     order = NULL;
 
-/* Doc!
-Window activeWin,root;
-int xCoordinate,yCoordinate;
-unsigned int width,height,border_width,depth;
-int reverToReturn;
-Display* disp  =  XOpenDisplay(NULL);
-XGetInputFocus(disp, &activeWin, &reverToReturn);
-XFlush(disp);
-//int status = XGetWindowAttributes(disp,activeWin,&attrib); doesn't work either
-if(XGetGeometry(disp,activeWin,&root,&xCoordinate,&yCoordinate,&width,&height,&border_width,&depth)) {
-       printf("Location %dx%d\n",xCoordinate,yCoordinate);
-       printf("Depth %d\n",depth);
-       printf("Width %d\n",width);
-       printf("Height %d\n",height);
-}
-XCloseDisplay(disp);
-*/
-
-// XXX Move cursor here
-    current_window = RootWindow(obt_display, 0);
-/*  XGetGeometry(obt_display, current_window, &root, &win_x, &win_y, &width, &height,
-            &border_width, &depth);*/
-    // Noob.
-    XGetInputFocus(obt_display, &activeWin, &reverToReturn);
-    //XGetWindowAttributes(obt_display, current_window, &winatts);
-    XGetGeometry(obt_display, activeWin, &root ,&xCoordinate,&yCoordinate,&width,&height,&border_width,&depth);
-    XWarpPointer(obt_display, None, activeWin, 0, 0, 0, 0, width/2, height/2);
-
-    printf ("%d %d", winatts.height, winatts.width);
-    fflush(stdout);
+    XGetGeometry(obt_display, ret->window, &root ,&xCoordinate,&yCoordinate,&width,&height,&border_width,&depth);
+    XWarpPointer(obt_display, None, ret->window, 0, 0, 0, 0, width/2, height/2);
 
     if (interactive) {
         focus_cycle_draw_indicator(NULL);

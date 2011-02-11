@@ -35,6 +35,7 @@ gboolean config_focus_raise;
 gboolean config_focus_last;
 gboolean config_focus_under_mouse;
 gboolean config_unfocus_leave;
+gboolean config_mouse_to_focus;
 
 ObPlacePolicy  config_place_policy;
 gboolean       config_place_center;
@@ -564,6 +565,8 @@ static void parse_focus(xmlNodePtr node, gpointer d)
         config_focus_under_mouse = obt_xml_node_bool(n);
     if ((n = obt_xml_find_node(node, "unfocusOnLeave")))
         config_unfocus_leave = obt_xml_node_bool(n);
+    if ((n = obt_xml_find_node(node, "mouseToFocus")))
+        config_mouse_to_focus = obt_xml_node_bool(n);
 }
 
 static void parse_placement(xmlNodePtr node, gpointer d)
