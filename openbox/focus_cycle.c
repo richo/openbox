@@ -20,6 +20,7 @@
 #include "focus_cycle.h"
 #include "focus_cycle_indicator.h"
 #include "client.h"
+#include "config.h"
 #include "frame.h"
 #include "focus.h"
 #include "screen.h"
@@ -183,8 +184,10 @@ done_cycle:
     g_list_free(order);
     order = NULL;
 
-    XGetGeometry(obt_display, ret->window, &root ,&xCoordinate,&yCoordinate,&width,&height,&border_width,&depth);
-    XWarpPointer(obt_display, None, ret->window, 0, 0, 0, 0, width/2, height/2);
+    if (config_mouse_to_focus) {
+        XGetGeometry(obt_display, ret->window, &root ,&xCoordinate,&yCoordinate,&width,&height,&border_width,&depth);
+        XWarpPointer(obt_display, None, ret->window, 0, 0, 0, 0, width/2, height/2);
+    }
 
     if (interactive) {
         focus_cycle_draw_indicator(NULL);

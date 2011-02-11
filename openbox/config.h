@@ -77,6 +77,10 @@ extern gboolean config_focus_under_mouse;
 /*! Remove focus from windows when the mouse leaves them
  */
 extern gboolean config_unfocus_leave;
+/*! Move the mouse to windows when they gain focus under certain conditions
+ */
+extern gboolean config_mouse_to_focus;
+
 
 /*! The algorithm to use for placing new windows */
 extern ObPlacePolicy config_place_policy;
