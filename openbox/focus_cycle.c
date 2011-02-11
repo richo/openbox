@@ -110,10 +110,6 @@ ObClient* focus_cycle(gboolean forward, gboolean all_desktops,
     ObClient *ft = NULL;
     ObClient *ret = NULL;
 
-    int xCoordinate,yCoordinate;
-    unsigned int width,height,border_width,depth;
-    Window root;
-
     if (interactive) {
         if (cancel) {
             focus_cycle_target = NULL;
@@ -185,8 +181,7 @@ done_cycle:
     order = NULL;
 
     if (config_mouse_to_focus) {
-        XGetGeometry(obt_display, ret->window, &root ,&xCoordinate,&yCoordinate,&width,&height,&border_width,&depth);
-        XWarpPointer(obt_display, None, ret->window, 0, 0, 0, 0, width/2, height/2);
+        XWarpPointer(obt_display, None, ret->window, 0, 0, 0, 0, ret->area.width/2, ret->area.height/2);
     }
 
     if (interactive) {
