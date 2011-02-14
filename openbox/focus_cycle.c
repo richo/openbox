@@ -179,9 +179,8 @@ done_cycle:
     g_list_free(order);
     order = NULL;
 
-    if (config_mouse_to_focus) {
-        XWarpPointer(obt_display, None, ret->window, 0, 0, 0, 0, ret->area.width/2, ret->area.height/2);
-    }
+    if (config_mouse_to_focus)
+        WARP_POINTER_TO(ret);
 
     if (interactive) {
         focus_cycle_draw_indicator(NULL);

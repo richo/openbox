@@ -3991,10 +3991,13 @@ void client_activate(ObClient *self, gboolean desktop,
 {
     self = client_focus_target(self);
 
-    if (client_can_steal_focus(self, desktop, user, event_time(), CurrentTime))
+    if (client_can_steal_focus(self, desktop, user, event_time(), CurrentTime)) {
         client_present(self, here, raise, unshade);
-    else
+        WARP_POINTER_TO(self);
+    }
+    else {
         client_hilite(self, TRUE);
+    }
 }
 
 static void client_bring_windows_recursive(ObClient *self,

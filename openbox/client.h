@@ -505,6 +505,12 @@ gboolean client_is_oldfullscreen(const ObClient const *self, const Rect *area);
 void client_iconify(ObClient *self, gboolean iconic, gboolean curdesk,
                     gboolean hide_animation);
 
+/*! Moves the cursor to the center of a client
+  @param client to move the cursor to
+*/
+#define WARP_POINTER_TO(self) \
+    XWarpPointer(obt_display, None, self->window, 0, 0, 0, 0, self->frame->area.width/2, self->frame->area.height/2)
+
 /*! Maximize or unmaximize the client window
   @param max true if the window should be maximized; false if it should be
              returned to normal size.
