@@ -3993,7 +3993,6 @@ void client_activate(ObClient *self, gboolean desktop,
 
     if (client_can_steal_focus(self, desktop, user, event_time(), CurrentTime)) {
         client_present(self, here, raise, unshade);
-        WARP_POINTER_TO(self);
     }
     else {
         client_hilite(self, TRUE);
