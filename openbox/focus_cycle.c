@@ -179,7 +179,7 @@ done_cycle:
     g_list_free(order);
     order = NULL;
 
-    if (config_mouse_to_focus)
+    if (config_mouse_to_focus && ret != NULL)
         WARP_POINTER_TO(ret);
 
     if (interactive) {
