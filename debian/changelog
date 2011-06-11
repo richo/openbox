@@ -1,0 +1,24 @@
+openbox (3.5.0-rc1-3) unstable; urgency=low
+
+  * Fixed a segfault in window switching
+
+ -- richo <richo@psych0tik.net>  Mon, 06 Jun 2011 08:29:08 +1000
+
+openbox (3.5.0-rc1-2) unstable; urgency=low
+
+  * Merged Dana's upstream
+
+ -- richo <richo@psych0tik.net>  Mon, 16 May 2011 09:20:08 +1000
+
+openbox (3.5.0-rc1-1) unstable; urgency=low
+
+  * richo's patchset
+
+ -- richo <richo@psych0tik.net>  Wed, 23 March 2011 11:41:08 +1000
+
+openbox (3.5.0-rc1-0) unstable; urgency=low
+
+  * Upstream release.
+
+ -- Dana Jansens <danakj@orodu.net>  Mon, 14 February 2011 11:41:08 +1100
+
