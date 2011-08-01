@@ -1,3 +1,9 @@
+openbox (3.5.0) unstable; urgency=low
+
+  * New upstream release!
+
+ -- richo <richo@psych0tik.net>  Mon, 02 Aug 2011 09:27:08 +1000
+
 openbox (3.5.0-rc1-3) unstable; urgency=low
 
   * Fixed a segfault in window switching
