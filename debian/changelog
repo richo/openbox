@@ -1,3 +1,9 @@
+openbox (3.5.0-psych0tik.1) unstable; urgency=low
+
+  * Merged upstream
+
+ -- richo <richo@psych0tik.net>  Thu, 04 Aug 2011 09:42:08 +1000
+
 openbox (3.5.0) unstable; urgency=low
 
   * New upstream release!
