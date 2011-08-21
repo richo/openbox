@@ -518,6 +518,7 @@ static void print_version(void)
     g_print(" 2008        Mikael Magnusson\n");
     g_print(_("Copyright (c)"));
     g_print(" 2003-2006   Dana Jansens\n\n");
+    g_print("Includes patches from github.com/richoH/openbox\n\n");
     g_print("This program comes with ABSOLUTELY NO WARRANTY.\n");
     g_print("This is free software, and you are welcome to redistribute it\n");
     g_print("under certain conditions. See the file COPYING for details.\n\n");
