@@ -24,6 +24,7 @@
 #include "client.h"
 #include "client_list_combined_menu.h"
 #include "focus.h"
+#include "frame.h"
 #include "config.h"
 #include "gettext.h"
 
@@ -103,6 +104,7 @@ static gboolean self_update(ObMenuFrame *frame, gpointer data)
                         NULL, TRUE);
     }
 
+
     return TRUE; /* always show the menu */
 }
 
@@ -127,6 +129,8 @@ static void menu_execute(ObMenuEntry *self, ObMenuFrame *f,
                desktop */
             if (!here && t->desktop == DESKTOP_ALL)
                 screen_set_desktop(self->id, FALSE);
+            if (config_mouse_to_focus)
+                WARP_POINTER_TO(t);
         }
         else
             screen_set_desktop(self->id, TRUE);
