@@ -80,6 +80,7 @@ obrender_libobrender_la_CPPFLAGS = \
 obrender_libobrender_la_LDFLAGS = \
 	-version-info $(RR_CURRENT):$(RR_REVISION):$(RR_AGE)
 obrender_libobrender_la_LIBADD = \
+	obt/libobt.la \
 	$(X_LIBS) \
 	$(PANGO_LIBS) \
 	$(GLIB_LIBS) \
@@ -515,7 +516,8 @@ nodist_xsessions_DATA = \
 	data/xsession/openbox-kde.desktop
 
 dist_gnomesession_DATA = \
-	data/xsession/openbox-gnome.session
+	data/gnome-session/openbox-gnome.session \
+	data/gnome-session/openbox-gnome-fallback.session
 
 dist_noinst_DATA = \
 	data/rc.xsd \
