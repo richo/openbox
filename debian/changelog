@@ -1,3 +1,9 @@
+openbox (3.5.0-psych0tik.4) unstable; urgency=low
+
+  * Merge upstream features from Dana
+
+ -- Rich Healey <richo@psych0tik.net>  Tue, 18 Oct 2011 11:05:50 +1100
+
 openbox (3.5.0-psych0tik.3) unstable; urgency=low
 
   * Merge upstream features from Dana
