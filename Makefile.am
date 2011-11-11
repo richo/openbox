@@ -6,6 +6,7 @@ localedir       = $(datadir)/locale
 configdir       = $(sysconfdir)/xdg
 rcdir           = $(configdir)/openbox
 xsessionsdir    = $(datadir)/xsessions
+gnomesessiondir = $(datadir)/gnome-session/sessions
 gnomewmfilesdir = $(datadir)/gnome/wm-properties
 pkgconfigdir    = $(libdir)/pkgconfig
 obtpubincludedir= $(includedir)/openbox/@OBT_VERSION@/obt
@@ -47,8 +48,7 @@ nodist_rc_SCRIPTS = \
 	data/autostart/autostart
 
 dist_libexec_SCRIPTS = \
-	data/autostart/openbox-xdg-autostart \
-	data/autostart/openbox-autostart
+	data/autostart/openbox-xdg-autostart
 
 nodist_libexec_SCRIPTS = \
 	data/autostart/openbox-autostart
@@ -80,6 +80,7 @@ obrender_libobrender_la_CPPFLAGS = \
 obrender_libobrender_la_LDFLAGS = \
 	-version-info $(RR_CURRENT):$(RR_REVISION):$(RR_AGE)
 obrender_libobrender_la_LIBADD = \
+	obt/libobt.la \
 	$(X_LIBS) \
 	$(PANGO_LIBS) \
 	$(GLIB_LIBS) \
@@ -87,6 +88,8 @@ obrender_libobrender_la_LIBADD = \
 	$(XML_LIBS)
 obrender_libobrender_la_SOURCES = \
 	gettext.h \
+	obrender/button.h \
+	obrender/button.c \
 	obrender/color.h \
 	obrender/color.c \
 	obrender/font.h \
@@ -171,6 +174,8 @@ openbox_openbox_CPPFLAGS = \
 	-DCONFIGDIR=\"$(configdir)\" \
 	-DG_LOG_DOMAIN=\"Openbox\"
 openbox_openbox_LDADD = \
+	$(XINERAMA_LIBS) \
+	$(XRANDR_LIBS) \
 	$(SM_LIBS) \
 	$(GLIB_LIBS) \
 	$(X_LIBS) \
@@ -322,9 +327,11 @@ tools_obxprop_obxprop_SOURCES = \
 ## gdm-control ##
 
 tools_gdm_control_gdm_control_CPPFLAGS = \
+	$(XAUTH_CFLAGS) \
 	$(X_CFLAGS) \
 	$(GLIB_CFLAGS)
 tools_gdm_control_gdm_control_LDADD = \
+	$(XAUTH_LIBS) \
 	$(X_LIBS) \
 	$(GLIB_LIBS)
 tools_gdm_control_gdm_control_SOURCES = \
@@ -468,6 +475,7 @@ dist_rc_DATA = \
 edit = $(SED) \
 	-e 's!@version\@!$(VERSION)!' \
 	-e 's!@configdir\@!$(configdir)!' \
+	-e 's!@rcdir\@!$(rcdir)!' \
 	-e 's!@libexecdir\@!$(libexecdir)!' \
 	-e 's!@bindir\@!$(bindir)!'
 
@@ -506,6 +514,10 @@ nodist_xsessions_DATA = \
 	data/xsession/openbox.desktop \
 	data/xsession/openbox-gnome.desktop \
 	data/xsession/openbox-kde.desktop
+
+dist_gnomesession_DATA = \
+	data/gnome-session/openbox-gnome.session \
+	data/gnome-session/openbox-gnome-fallback.session
 
 dist_noinst_DATA = \
 	data/rc.xsd \

@@ -44,6 +44,7 @@ struct _RrTheme {
     gint fbwidth; /*!< frame border width */
     gint mbwidth; /*!< menu border width */
     gint obwidth; /*!< osd border width */
+    gint ubwidth; /*!< undecorated frame border width */
     gint cbwidthx;
     gint cbwidthy;
     gint menu_overlap_x;
@@ -66,7 +67,9 @@ struct _RrTheme {
     RrColor *menu_border_color;
     RrColor *osd_border_color;
     RrColor *frame_focused_border_color;
+    RrColor *frame_undecorated_focused_border_color;
     RrColor *frame_unfocused_border_color;
+    RrColor *frame_undecorated_unfocused_border_color;
     RrColor *title_separator_focused_color;
     RrColor *title_separator_unfocused_color;
     RrColor *cb_focused_color;
@@ -90,6 +93,8 @@ struct _RrTheme {
     RrColor *menu_title_color;
     RrColor *menu_sep_color;
     RrColor *menu_color;
+    RrColor *menu_bullet_color;
+    RrColor *menu_bullet_selected_color;
     RrColor *menu_selected_color;
     RrColor *menu_disabled_color;
     RrColor *menu_disabled_selected_color;
@@ -103,6 +108,11 @@ struct _RrTheme {
     RrColor *osd_text_inactive_shadow_color;
     gchar    osd_text_active_shadow_alpha;
     gchar    osd_text_inactive_shadow_alpha;
+    RrColor *osd_pressed_color;
+    RrColor *osd_unpressed_color;
+    RrColor *osd_focused_color;
+    RrColor *osd_pressed_lineart;
+    RrColor *osd_focused_lineart;
     RrColor *menu_title_shadow_color;
     gchar    menu_title_shadow_alpha;
     RrColor *menu_text_normal_shadow_color;
@@ -120,36 +130,6 @@ struct _RrTheme {
     gint       def_win_icon_h;
 
     /* style settings - masks */
-    RrPixmapMask *max_mask;
-    RrPixmapMask *max_hover_mask;
-    RrPixmapMask *max_pressed_mask;
-    RrPixmapMask *max_toggled_mask;
-    RrPixmapMask *max_toggled_hover_mask;
-    RrPixmapMask *max_toggled_pressed_mask;
-    RrPixmapMask *max_disabled_mask;
-    RrPixmapMask *iconify_mask;
-    RrPixmapMask *iconify_hover_mask;
-    RrPixmapMask *iconify_pressed_mask;
-    RrPixmapMask *iconify_disabled_mask;
-    RrPixmapMask *desk_mask;
-    RrPixmapMask *desk_hover_mask;
-    RrPixmapMask *desk_pressed_mask;
-    RrPixmapMask *desk_toggled_mask;
-    RrPixmapMask *desk_toggled_hover_mask;
-    RrPixmapMask *desk_toggled_pressed_mask;
-    RrPixmapMask *desk_disabled_mask;
-    RrPixmapMask *shade_mask;
-    RrPixmapMask *shade_hover_mask;
-    RrPixmapMask *shade_pressed_mask;
-    RrPixmapMask *shade_toggled_mask;
-    RrPixmapMask *shade_toggled_hover_mask;
-    RrPixmapMask *shade_toggled_pressed_mask;
-    RrPixmapMask *shade_disabled_mask;
-    RrPixmapMask *close_mask;
-    RrPixmapMask *close_hover_mask;
-    RrPixmapMask *close_disabled_mask;
-    RrPixmapMask *close_pressed_mask;
-
     RrPixmapMask *menu_bullet_mask; /* submenu pointer */
 #if 0
     RrPixmapMask *menu_toggle_mask; /* menu boolean */
@@ -158,65 +138,14 @@ struct _RrTheme {
     RrPixmapMask *down_arrow_mask;
     RrPixmapMask *up_arrow_mask;
 
+    /* buttons */
+    RrButton *btn_max;
+    RrButton *btn_close;
+    RrButton *btn_desk;
+    RrButton *btn_shade;
+    RrButton *btn_iconify;
+
     /* global appearances */
-    RrAppearance *a_disabled_focused_max;
-    RrAppearance *a_disabled_unfocused_max;
-    RrAppearance *a_hover_focused_max;
-    RrAppearance *a_hover_unfocused_max;
-    RrAppearance *a_focused_unpressed_max;
-    RrAppearance *a_focused_pressed_max;
-    RrAppearance *a_unfocused_unpressed_max;
-    RrAppearance *a_unfocused_pressed_max;
-    RrAppearance *a_toggled_hover_focused_max;
-    RrAppearance *a_toggled_hover_unfocused_max;
-    RrAppearance *a_toggled_focused_unpressed_max;
-    RrAppearance *a_toggled_focused_pressed_max;
-    RrAppearance *a_toggled_unfocused_unpressed_max;
-    RrAppearance *a_toggled_unfocused_pressed_max;
-    RrAppearance *a_disabled_focused_close;
-    RrAppearance *a_disabled_unfocused_close;
-    RrAppearance *a_hover_focused_close;
-    RrAppearance *a_hover_unfocused_close;
-    RrAppearance *a_focused_unpressed_close;
-    RrAppearance *a_focused_pressed_close;
-    RrAppearance *a_unfocused_unpressed_close;
-    RrAppearance *a_unfocused_pressed_close;
-    RrAppearance *a_disabled_focused_desk;
-    RrAppearance *a_disabled_unfocused_desk;
-    RrAppearance *a_hover_focused_desk;
-    RrAppearance *a_hover_unfocused_desk;
-    RrAppearance *a_focused_unpressed_desk;
-    RrAppearance *a_focused_pressed_desk;
-    RrAppearance *a_unfocused_unpressed_desk;
-    RrAppearance *a_unfocused_pressed_desk;
-    RrAppearance *a_toggled_hover_focused_desk;
-    RrAppearance *a_toggled_hover_unfocused_desk;
-    RrAppearance *a_toggled_focused_unpressed_desk;
-    RrAppearance *a_toggled_focused_pressed_desk;
-    RrAppearance *a_toggled_unfocused_unpressed_desk;
-    RrAppearance *a_toggled_unfocused_pressed_desk;
-    RrAppearance *a_disabled_focused_shade;
-    RrAppearance *a_disabled_unfocused_shade;
-    RrAppearance *a_hover_focused_shade;
-    RrAppearance *a_hover_unfocused_shade;
-    RrAppearance *a_focused_unpressed_shade;
-    RrAppearance *a_focused_pressed_shade;
-    RrAppearance *a_unfocused_unpressed_shade;
-    RrAppearance *a_unfocused_pressed_shade;
-    RrAppearance *a_toggled_hover_focused_shade;
-    RrAppearance *a_toggled_hover_unfocused_shade;
-    RrAppearance *a_toggled_focused_unpressed_shade;
-    RrAppearance *a_toggled_focused_pressed_shade;
-    RrAppearance *a_toggled_unfocused_unpressed_shade;
-    RrAppearance *a_toggled_unfocused_pressed_shade;
-    RrAppearance *a_disabled_focused_iconify;
-    RrAppearance *a_disabled_unfocused_iconify;
-    RrAppearance *a_hover_focused_iconify;
-    RrAppearance *a_hover_unfocused_iconify;
-    RrAppearance *a_focused_unpressed_iconify;
-    RrAppearance *a_focused_pressed_iconify;
-    RrAppearance *a_unfocused_unpressed_iconify;
-    RrAppearance *a_unfocused_pressed_iconify;
     RrAppearance *a_focused_grip;
     RrAppearance *a_unfocused_grip;
     RrAppearance *a_focused_title;
@@ -248,6 +177,9 @@ struct _RrTheme {
     RrAppearance *osd_hilite_label; /* can be parent relative */
     RrAppearance *osd_unhilite_bg; /* can never be parent relative */
     RrAppearance *osd_unhilite_label; /* can be parent relative */
+    RrAppearance *osd_pressed_button;
+    RrAppearance *osd_unpressed_button;
+    RrAppearance *osd_focused_button;
 
     gchar *name;
 };
