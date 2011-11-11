@@ -228,6 +228,7 @@ openbox_openbox_SOURCES = \
 	openbox/actions/showdesktop.c \
 	openbox/actions/showmenu.c \
 	openbox/actions/unfocus.c \
+	openbox/actions/warp.c \
 	openbox/actions.c \
 	openbox/actions.h \
 	openbox/client.c \
