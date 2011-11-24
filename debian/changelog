@@ -1,3 +1,9 @@
+openbox (3.5.0-psych0tik.5) unstable; urgency=low
+
+  * Warp is now a valid action
+
+ -- Rich Healey <richo@psych0tik.net>  Fri, 25 Nov 2011 09:31:01 +1100
+
 openbox (3.5.0-psych0tik.4) unstable; urgency=low
 
   * Merge upstream features from Dana
